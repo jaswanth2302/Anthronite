@@ -1,0 +1,9 @@
+# Font Files Directory
+
+Please add the following font files to this directory:
+
+1. GeistVF.woff - Download from https://vercel.com/font
+2. NeueMontreal-Light.woff2 - Premium Sans-Serif font
+3. NeueMontreal-Regular.woff2 - Premium Sans-Serif font
+
+Alternative: You can use system fonts by modifying the font configuration in layout.tsx
