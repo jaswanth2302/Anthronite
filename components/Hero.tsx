@@ -2,18 +2,24 @@
 
 import { useRef, useState, useEffect } from "react";
 import { motion, useSpring, useTransform, useScroll } from "framer-motion";
+import type { MotionValue } from "framer-motion";
 import Image from "next/image";
 import { sculptureVariants } from "./PageOrchestrator";
 import TextType from "./TextType";
+import useOrientation from "@/hooks/useOrientation";
 
-function HeroText() {
+function HeroText({ parallaxStyle }: { parallaxStyle: { x: MotionValue<number>; y: MotionValue<number> } }) {
   const [showTagline, setShowTagline] = useState(false);
 
   return (
     <div className="flex flex-col items-start">
       <motion.h1
         className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold font-google-sans text-chrome-gradient whitespace-nowrap leading-[1.1] mb-2"
-        style={{ letterSpacing: "-0.05em" }}
+        style={{
+          letterSpacing: "-0.05em",
+          x: parallaxStyle.x,
+          y: parallaxStyle.y,
+        }}
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         exit={{ opacity: 0 }}
@@ -61,6 +67,7 @@ export default function Hero() {
   const containerRef = useRef<HTMLDivElement>(null);
   const stickyRef = useRef<HTMLDivElement>(null);
   const [isMobile, setIsMobile] = useState(false);
+  const { gamma, beta } = useOrientation();
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -70,9 +77,13 @@ export default function Hero() {
   const springConfig = { stiffness: 150, damping: 20, mass: 0.5 };
   const mouseX = useSpring(0, springConfig);
   const mouseY = useSpring(0, springConfig);
+  const orientationX = useSpring(0, { stiffness: 120, damping: 20, mass: 0.4 });
+  const orientationY = useSpring(0, { stiffness: 120, damping: 20, mass: 0.4 });
 
   const rotateX = useTransform(mouseY, [-0.5, 0.5], [15, -15]);
   const rotateY = useTransform(mouseX, [-0.5, 0.5], [-15, 15]);
+  const combinedSculptureX = useTransform([mouseX, orientationX], ([mouseOffset, orientationOffset]: number[]) => mouseOffset * 20 + orientationOffset);
+  const combinedSculptureY = useTransform([mouseY, orientationY], ([mouseOffset, orientationOffset]: number[]) => mouseOffset * 20 + orientationOffset);
 
   const opacity = useTransform(scrollYProgress, [0, 0.75, 1], [1, 1, 0]);
   const yPosition = useTransform(scrollYProgress, [0, 0.75, 1], [0, 0, -150]);
@@ -87,6 +98,14 @@ export default function Hero() {
     
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
+
+  useEffect(() => {
+    const maxOffset = 15;
+    const nextX = Math.max(-maxOffset, Math.min(maxOffset, gamma / 3));
+    const nextY = Math.max(-maxOffset, Math.min(maxOffset, -beta / 3));
+    orientationX.set(nextX);
+    orientationY.set(nextY);
+  }, [beta, gamma, orientationX, orientationY]);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (isMobile || !stickyRef.current) return;
@@ -134,14 +153,7 @@ export default function Hero() {
               exit={{ opacity: 0, scale: 0.95, transition: { duration: 0.8 } }}
               viewport={{ amount: 0.2, once: false }}
               variants={sculptureVariants}
-              animate={{
-                y: [0, -10, 0],
-              }}
-              transition={{
-                duration: 4,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
+              style={{ x: orientationX, y: orientationY }}
             >
               <Image
                 src="/women.png"
@@ -163,6 +175,8 @@ export default function Hero() {
               style={{
                 rotateX,
                 rotateY,
+                x: combinedSculptureX,
+                y: combinedSculptureY,
                 transformStyle: "preserve-3d",
               }}
             >
@@ -183,7 +197,7 @@ export default function Hero() {
             className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent md:hidden"
             style={{ zIndex: -1 }}
           />
-          <HeroText />
+          <HeroText parallaxStyle={{ x: orientationX, y: orientationY }} />
         </div>
         </motion.div>
       </div>

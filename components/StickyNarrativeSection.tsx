@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   motion,
   useMotionTemplate,
@@ -12,6 +12,7 @@ import {
 
 export default function StickyNarrativeSection() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [isMobile, setIsMobile] = useState(false);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -48,7 +49,7 @@ export default function StickyNarrativeSection() {
   const deployedScaleRaw = useTransform(
     scrollYProgress,
     [0.50, 0.58, 0.68, 0.73, 0.75],
-    [0.9, 1, 1, 20, 20],
+    [0.9, 1, 1, isMobile ? 40 : 20, isMobile ? 40 : 20],
   );
   const deployedScale = useSpring(deployedScaleRaw, {
     stiffness: 300,
@@ -72,6 +73,17 @@ export default function StickyNarrativeSection() {
   const voidOpacityRaw = useTransform(scrollYProgress, [0, 0.63, 0.72, 1], [1, 1, 0.3, 0.2]);
   const voidOpacity = useSpring(voidOpacityRaw, { stiffness: 180, damping: 26, mass: 0.65 });
 
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
   const handleMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
     const { innerWidth, innerHeight } = window;
     const offsetX = (event.clientX / innerWidth - 0.5) * 6;
@@ -86,7 +98,7 @@ export default function StickyNarrativeSection() {
   };
 
   const monolithBaseClass =
-    "absolute text-center font-google-sans text-[12vw] font-semibold leading-none tracking-tight text-transparent bg-clip-text";
+    "absolute text-center font-google-sans text-[18vw] md:text-[12vw] font-semibold leading-none tracking-[-0.07em] text-transparent bg-clip-text";
 
   const monolithTextureStyle = {
     backgroundImage:

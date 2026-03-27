@@ -4,11 +4,13 @@ import { useRef, useState, useEffect } from "react";
 import { motion, useSpring, useTransform, useScroll, useMotionValueEvent } from "framer-motion";
 import Image from "next/image";
 import TextType from "./TextType";
+import useOrientation from "@/hooks/useOrientation";
 
 export default function ScrollSection() {
   const containerRef = useRef<HTMLDivElement>(null);
   const stickyRef = useRef<HTMLDivElement>(null);
   const [isMobile, setIsMobile] = useState(false);
+  const { gamma, beta } = useOrientation();
   const [showContent, setShowContent] = useState(false);
   const [showSecondLine, setShowSecondLine] = useState(false);
   const [showSubLineOne, setShowSubLineOne] = useState(false);
@@ -22,14 +24,19 @@ export default function ScrollSection() {
   const heavySpringConfig = { stiffness: 80, damping: 25, mass: 1.5 };
   const mouseX = useSpring(0, heavySpringConfig);
   const mouseY = useSpring(0, heavySpringConfig);
+  const orientationX = useSpring(0, { stiffness: 120, damping: 20, mass: 0.5 });
+  const orientationY = useSpring(0, { stiffness: 120, damping: 20, mass: 0.5 });
 
   const rotateX = useTransform(mouseY, [-0.5, 0.5], [10, -10]);
   const rotateY = useTransform(mouseX, [-0.5, 0.5], [-10, 10]);
   const translateX = useTransform(mouseX, [-0.5, 0.5], [-20, 20]);
   const translateY = useTransform(mouseY, [-0.5, 0.5], [-20, 20]);
+  const combinedX = useTransform([translateX, orientationX], ([mouseOffset, orientationOffset]: number[]) => mouseOffset + orientationOffset);
+  const combinedY = useTransform([translateY, orientationY], ([mouseOffset, orientationOffset]: number[]) => mouseOffset + orientationOffset);
 
   const contentOpacity = useTransform(scrollYProgress, [0, 0.12, 0.85, 1], [0, 1, 1, 0]);
-  const contentY = useTransform(scrollYProgress, [0, 0.12, 0.85, 1], [80, 0, 0, -80]);
+  const contentYDesktop = useTransform(scrollYProgress, [0, 0.12, 0.85, 1], [80, 0, 0, -80]);
+  const contentYMobile = useTransform(scrollYProgress, [0, 0.12, 0.85, 1], [20, 0, 0, -20]);
   const imageOpacity = useTransform(scrollYProgress, [0.05, 0.18, 0.85, 1], [0, 1, 1, 0]);
 
   useMotionValueEvent(scrollYProgress, "change", (latest) => {
@@ -46,6 +53,14 @@ export default function ScrollSection() {
     
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
+
+  useEffect(() => {
+    const maxOffset = 15;
+    const nextX = Math.max(-maxOffset, Math.min(maxOffset, gamma / 3));
+    const nextY = Math.max(-maxOffset, Math.min(maxOffset, -beta / 3));
+    orientationX.set(nextX);
+    orientationY.set(nextY);
+  }, [beta, gamma, orientationX, orientationY]);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (isMobile || !stickyRef.current) return;
@@ -81,10 +96,10 @@ export default function ScrollSection() {
         />
         <motion.div
           className="absolute inset-0 grid grid-cols-1 md:grid-cols-2 gap-0"
-          style={{ opacity: contentOpacity, y: contentY }}
+          style={{ opacity: contentOpacity, y: isMobile ? contentYMobile : contentYDesktop }}
         >
-          <div className="relative flex flex-col items-start justify-center px-4 md:px-8 lg:px-12 order-1 h-1/2 md:h-full">
-            <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold font-geist tracking-tighter text-chrome-gradient leading-[1.1] whitespace-nowrap">
+          <div className="relative flex flex-col items-start justify-start md:justify-center px-4 md:px-8 lg:px-12 order-1 h-[44%] md:h-full pt-6 md:pt-0">
+            <h2 className="text-[2.3rem] sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold font-geist tracking-tighter text-chrome-gradient leading-[1.1] whitespace-nowrap">
               {showContent && (
                 <TextType
                   as="span"
@@ -99,7 +114,7 @@ export default function ScrollSection() {
                 />
               )}
             </h2>
-            <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold font-geist tracking-tighter text-chrome-gradient leading-[1.1] whitespace-nowrap">
+            <h2 className="text-[2.3rem] sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold font-geist tracking-tighter text-chrome-gradient leading-[1.1] whitespace-nowrap">
               {showSecondLine && (
                 <TextType
                   as="span"
@@ -115,7 +130,7 @@ export default function ScrollSection() {
               )}
             </h2>
 
-            <div className="mt-8 max-w-[480px] font-google-sans text-white/50 text-[1.25rem] leading-relaxed">
+            <div className="mt-5 md:mt-8 max-w-[480px] font-google-sans text-white/50 text-[1.08rem] sm:text-[1.25rem] leading-relaxed">
               <p>
                 {showSubLineOne && (
                   <TextType
@@ -148,26 +163,18 @@ export default function ScrollSection() {
             </div>
           </div>
 
-          <div className="relative flex items-center justify-center order-2 h-1/2 md:h-full">
+          <div className="relative flex items-center justify-center order-2 h-[56%] md:h-full pb-6 md:pb-0">
             {isMobile ? (
               <motion.div
                 className="relative w-full h-full flex items-center justify-center will-change-transform"
-                style={{ opacity: imageOpacity }}
-                animate={{
-                  y: [0, -15, 0],
-                }}
-                transition={{
-                  duration: 4,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
+                style={{ opacity: imageOpacity, x: orientationX, y: orientationY }}
               >
                 <Image
                   src="/falling man.png"
                   alt="The Falling Man"
                   width={500}
                   height={700}
-                  className="object-contain max-w-[80%] max-h-[80%] image-glow will-change-transform"
+                  className="object-contain w-auto h-auto max-w-[100vw] max-h-[96%] md:max-w-[80%] md:max-h-[80%] image-glow will-change-transform"
                 />
               </motion.div>
             ) : (
@@ -177,8 +184,8 @@ export default function ScrollSection() {
                   opacity: imageOpacity,
                   rotateX,
                   rotateY,
-                  x: translateX,
-                  y: translateY,
+                  x: combinedX,
+                  y: combinedY,
                   transformStyle: "preserve-3d",
                 }}
               >

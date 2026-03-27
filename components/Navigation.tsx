@@ -113,7 +113,7 @@ export default function Navigation() {
         <div className="flex items-center justify-between max-w-screen-2xl mx-auto">
           {/* Mobile - Hamburger Icon */}
           <button
-            className="md:hidden text-white/80 hover:text-white transition-colors"
+            className="md:hidden ml-auto text-white/80 hover:text-white transition-colors"
             onClick={() => setIsMobileMenuOpen(true)}
           >
             <Menu size={24} />
