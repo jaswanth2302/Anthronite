@@ -148,31 +148,40 @@ export default function RootLayout({
         founder: {
           '@id': 'https://anthronite.tech/#founder',
         },
-      },
-      {
-        '@type': ['Organization', 'ProfessionalService', 'LocalBusiness'],
-        '@id': 'https://anthronite.tech/#localbusiness',
-        name: 'Anthronite Systems',
-        image: 'https://anthronite.tech/logo no bg.png',
-        address: {
-          '@type': 'PostalAddress',
-          addressLocality: 'Chennai',
-          addressRegion: 'Tamil Nadu',
-          addressCountry: 'IN',
+        department: [
+          {
+            '@type': 'ResearchProject',
+            name: 'Sovereign AI Infrastructure',
+          },
+          {
+            '@type': 'ResearchProject',
+            name: 'Autonomous Systems',
+          },
+          {
+            '@type': 'ResearchProject',
+            name: 'Agentic Workflows',
+          },
+        ],
+        location: {
+          '@type': 'Place',
+          name: 'Global Headquarters',
+          address: {
+            '@type': 'PostalAddress',
+            addressLocality: 'Chennai',
+            addressRegion: 'Tamil Nadu',
+            addressCountry: 'IN',
+          },
+          geo: {
+            '@type': 'GeoCoordinates',
+            latitude: 13.0827,
+            longitude: 80.2707,
+          },
         },
-        geo: {
-          '@type': 'GeoCoordinates',
-          latitude: 13.0827,
-          longitude: 80.2707,
-        },
-        url: 'https://anthronite.tech',
-        telephone: '+91-9176101672',
-        priceRange: 'Enterprise',
-        openingHoursSpecification: {
-          '@type': 'OpeningHoursSpecification',
-          dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
-          opens: '09:00',
-          closes: '18:00',
+        contactPoint: {
+          '@type': 'ContactPoint',
+          telephone: '+91-9176101672',
+          contactType: 'General Inquiry',
+          availableLanguage: ['English', 'Tamil'],
         },
       },
       {
