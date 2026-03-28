@@ -40,21 +40,18 @@ function HeroText({ parallaxStyle }: { parallaxStyle: { x: MotionValue<number>; 
       </motion.h1>
 
       <p
-        className="font-geist font-light text-[#EDEDED] uppercase tracking-[0.2em]"
-        style={{
-          fontSize: "1.1rem",
-        }}
+        className="font-google-sans text-white/50 text-[1.08rem] sm:text-[1.25rem] leading-relaxed max-w-[480px]"
       >
         {showTagline && (
           <TextType
             as="span"
-            text="Architecting the Inevitable"
-            typingSpeed={45}
+            text="AI Research Lab architecting high end infrastructure and inventing new ai systems."
+            typingSpeed={20}
             pauseDuration={1200}
             deletingSpeed={25}
             loop={false}
             startOnVisible
-            cursorClassName="text-[#EDEDED]"
+            cursorClassName="text-white/50"
             hideCursorWhileTyping
           />
         )}
