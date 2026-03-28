@@ -128,13 +128,12 @@ export default function Navigation() {
               onMouseLeave={handleMenuLeave}
             >
               <button
-                className="font-google-sans font-medium tracking-tight will-change-transform transition-colors duration-300 flex items-center gap-1"
+                className="font-google-sans text-white/50 text-[0.9rem] sm:text-[1.05rem] leading-relaxed will-change-transform transition-colors duration-300 flex items-center gap-1"
                 style={{
-                  fontSize: "15px",
-                  color: activeMegaMenu === 'About' ? "#FFFFFF" : "rgba(192, 192, 192, 0.8)",
+                  color: activeMegaMenu === 'About' ? "#FFFFFF" : undefined,
                 }}
                 onMouseEnter={(e) => e.currentTarget.style.color = "#FFFFFF"}
-                onMouseLeave={(e) => activeMegaMenu !== 'About' && (e.currentTarget.style.color = "rgba(192, 192, 192, 0.8)")}
+                onMouseLeave={(e) => activeMegaMenu !== 'About' && (e.currentTarget.style.color = "")}
               >
                 About
                 <motion.div
@@ -148,13 +147,9 @@ export default function Navigation() {
             
             <a
               href="#blogs"
-              className="font-google-sans font-medium tracking-tight will-change-transform transition-colors duration-300"
-              style={{
-                fontSize: "15px",
-                color: "rgba(192, 192, 192, 0.8)",
-              }}
+              className="font-google-sans text-white/50 text-[0.9rem] sm:text-[1.05rem] leading-relaxed will-change-transform transition-colors duration-300"
               onMouseEnter={(e) => e.currentTarget.style.color = "#FFFFFF"}
-              onMouseLeave={(e) => e.currentTarget.style.color = "rgba(192, 192, 192, 0.8)"}
+              onMouseLeave={(e) => e.currentTarget.style.color = ""}
             >
               Blogs
             </a>
@@ -166,13 +161,12 @@ export default function Navigation() {
               onMouseLeave={handleMenuLeave}
             >
               <button
-                className="font-google-sans font-medium tracking-tight will-change-transform transition-colors duration-300 flex items-center gap-1"
+                className="font-google-sans text-white/50 text-[0.9rem] sm:text-[1.05rem] leading-relaxed will-change-transform transition-colors duration-300 flex items-center gap-1"
                 style={{
-                  fontSize: "15px",
-                  color: activeMegaMenu === 'Intelligence' ? "#FFFFFF" : "rgba(192, 192, 192, 0.8)",
+                  color: activeMegaMenu === 'Intelligence' ? "#FFFFFF" : undefined,
                 }}
                 onMouseEnter={(e) => e.currentTarget.style.color = "#FFFFFF"}
-                onMouseLeave={(e) => activeMegaMenu !== 'Intelligence' && (e.currentTarget.style.color = "rgba(192, 192, 192, 0.8)")}
+                onMouseLeave={(e) => activeMegaMenu !== 'Intelligence' && (e.currentTarget.style.color = "")}
               >
                 Intelligence
                 <motion.div
@@ -191,13 +185,12 @@ export default function Navigation() {
               onMouseLeave={handleMenuLeave}
             >
               <button
-                className="font-google-sans font-medium tracking-tight will-change-transform transition-colors duration-300 flex items-center gap-1"
+                className="font-google-sans text-white/50 text-[0.9rem] sm:text-[1.05rem] leading-relaxed will-change-transform transition-colors duration-300 flex items-center gap-1"
                 style={{
-                  fontSize: "15px",
-                  color: activeMegaMenu === 'Resources' ? "#FFFFFF" : "rgba(192, 192, 192, 0.8)",
+                  color: activeMegaMenu === 'Resources' ? "#FFFFFF" : undefined,
                 }}
                 onMouseEnter={(e) => e.currentTarget.style.color = "#FFFFFF"}
-                onMouseLeave={(e) => activeMegaMenu !== 'Resources' && (e.currentTarget.style.color = "rgba(192, 192, 192, 0.8)")}
+                onMouseLeave={(e) => activeMegaMenu !== 'Resources' && (e.currentTarget.style.color = "")}
               >
                 Resources
                 <motion.div
@@ -211,13 +204,9 @@ export default function Navigation() {
             
             <a
               href="#contact"
-              className="font-google-sans font-medium tracking-tight will-change-transform transition-colors duration-300"
-              style={{
-                fontSize: "15px",
-                color: "rgba(192, 192, 192, 0.8)",
-              }}
+              className="font-google-sans text-white/50 text-[0.9rem] sm:text-[1.05rem] leading-relaxed will-change-transform transition-colors duration-300"
               onMouseEnter={(e) => e.currentTarget.style.color = "#FFFFFF"}
-              onMouseLeave={(e) => e.currentTarget.style.color = "rgba(192, 192, 192, 0.8)"}
+              onMouseLeave={(e) => e.currentTarget.style.color = ""}
             >
               Contact
             </a>
