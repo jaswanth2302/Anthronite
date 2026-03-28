@@ -27,19 +27,22 @@ export default function AntigravitySignatureSection() {
         </motion.h2>
       </div>
 
-      <div className="absolute bottom-10 z-20 w-full px-6 md:px-12">
+      <footer className="absolute bottom-10 z-20 w-full px-6 md:px-12">
         <div className="flex items-center justify-between gap-4 text-[10px] tracking-[0.16em] text-white/75">
           <div className="flex items-center gap-2 font-google-sans uppercase">
             <span className="inline-block h-[7px] w-[7px] rounded-sm bg-gradient-to-b from-white to-neutral-400" />
-            <span>ANTHRONITE SYSTEMS</span>
+            <span itemProp="name">ANTHRONITE SYSTEMS</span>
           </div>
 
           <div className="hidden font-google-sans text-white/40 md:block">
             Privacy Policy | Terms &amp; Conditions
           </div>
 
-          <div
-            className="flex items-center gap-2 font-google-sans uppercase"
+          <address
+            className="flex items-center gap-2 font-google-sans uppercase not-italic"
+            itemProp="address"
+            itemScope
+            itemType="https://schema.org/PostalAddress"
             onMouseEnter={() => setIsLocationHovered(true)}
             onMouseLeave={() => setIsLocationHovered(false)}
           >
@@ -59,10 +62,14 @@ export default function AntigravitySignatureSection() {
               />
               <MapPin className="h-3 w-3 text-white/85" strokeWidth={2.2} />
             </span>
-            <span>Chennai / Global</span>
-          </div>
+            <span>
+              <span itemProp="addressLocality">Chennai</span> / <span itemProp="addressCountry">Global</span>
+            </span>
+            <meta itemProp="addressRegion" content="Tamil Nadu" />
+            <meta itemProp="addressCountry" content="IN" />
+          </address>
         </div>
-      </div>
+      </footer>
     </section>
   );
 }

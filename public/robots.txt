@@ -1,0 +1,43 @@
+# Anthronite Systems - Robots Configuration
+# High-authority crawling for AI Research Lab
+
+User-agent: *
+Allow: /
+Allow: /research
+Allow: /systems
+Allow: /infrastructure
+Allow: /*.png
+Allow: /*.jpg
+Allow: /*.svg
+Allow: /*.webp
+Allow: /*.avif
+
+# Prioritize core assets
+Allow: /women.png
+Allow: /falling man.png
+Allow: /purre icon.png
+Allow: /logo no bg.png
+
+# Block development artifacts
+Disallow: /api/
+Disallow: /_next/static/development/
+Disallow: /*.json$
+
+# Sitemap location
+Sitemap: https://anthronite.tech/sitemap.xml
+
+# Crawl-delay for respectful indexing
+Crawl-delay: 0
+
+# Google-specific directives
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
+
+User-agent: Googlebot-Image
+Allow: /
+
+# Bing directives
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 0

@@ -12,13 +12,14 @@ function HeroText({ parallaxStyle }: { parallaxStyle: { x: MotionValue<number>; 
   const [showTagline, setShowTagline] = useState(false);
 
   return (
-    <div className="flex flex-col items-start">
+    <div className="flex flex-col items-start" style={{ minHeight: '200px' }}>
       <motion.h1
         className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold font-google-sans text-chrome-gradient whitespace-nowrap leading-[1.1] mb-2"
         style={{
           letterSpacing: "-0.05em",
           x: parallaxStyle.x,
           y: parallaxStyle.y,
+          minHeight: '1.1em',
         }}
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
@@ -41,6 +42,7 @@ function HeroText({ parallaxStyle }: { parallaxStyle: { x: MotionValue<number>; 
 
       <p
         className="font-google-sans text-white/50 text-[1.08rem] sm:text-[1.25rem] leading-relaxed max-w-[480px]"
+        style={{ minHeight: '3em' }}
       >
         {showTagline && (
           <TextType
@@ -122,7 +124,7 @@ export default function Hero() {
   };
 
   return (
-    <section ref={containerRef} className="relative w-full" style={{ height: '200dvh' }}>
+    <article ref={containerRef} className="relative w-full" style={{ height: '200dvh' }}>
       <div
         ref={stickyRef}
         className="sticky top-0 w-full overflow-hidden"
@@ -159,6 +161,9 @@ export default function Hero() {
                 height={1400}
                 className="object-contain max-w-[98%] max-h-[98%] w-auto h-auto image-glow will-change-transform"
                 priority
+                quality={90}
+                placeholder="blur"
+                blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwMCIgaGVpZ2h0PSIxNDAwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiMwMDAwMDAiLz48L3N2Zz4="
               />
             </motion.div>
           ) : (
@@ -184,6 +189,9 @@ export default function Hero() {
                 height={1400}
                 className="object-contain max-w-[98%] max-h-[98%] w-auto h-auto image-glow will-change-transform"
                 priority
+                quality={90}
+                placeholder="blur"
+                blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwMCIgaGVpZ2h0PSIxNDAwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiMwMDAwMDAiLz48L3N2Zz4="
               />
             </motion.div>
           )}
@@ -198,6 +206,6 @@ export default function Hero() {
         </div>
         </motion.div>
       </div>
-    </section>
+    </article>
   );
 }

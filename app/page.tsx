@@ -39,16 +39,18 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="relative">
+    <>
       <Starfield />
       <div className="noise-grain" />
       <Navigation />
       <SystemNodes />
-      <Hero />
-      <HorizonLine />
-      <ScrollSection />
-      <StickyNarrativeSection />
-      <AntigravitySignatureSection />
-    </main>
+      <main className="relative">
+        <Hero />
+        <HorizonLine />
+        <ScrollSection />
+        <StickyNarrativeSection />
+        <AntigravitySignatureSection />
+      </main>
+    </>
   );
 }
