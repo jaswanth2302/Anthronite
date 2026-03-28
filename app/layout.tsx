@@ -20,7 +20,7 @@ const googleSans = localFont({
 
 export const metadata: Metadata = {
   title: "Anthronite - AI Research Lab",
-  description: "Research Lab & Engineering Firm",
+  description: "AI Research Lab architecting high end infrastructure and inventing new ai systems.",
   icons: {
     icon: "/logo no bg.png",
   },
