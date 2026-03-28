@@ -21,6 +21,9 @@ const googleSans = localFont({
 export const metadata: Metadata = {
   title: "Anthronite Systems - Architecting the Inevitable",
   description: "Research Lab & Engineering Firm",
+  icons: {
+    icon: "/logo no bg.png",
+  },
 };
 
 export default function RootLayout({
